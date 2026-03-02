@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 20% 98%;
+    --foreground: 30 10% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 30 10% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 10% 15%;
+    --primary: 142 30% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 35 25% 92%;
+    --secondary-foreground: 30 10% 15%;
+    --muted: 35 20% 95%;
+    --muted-foreground: 30 8% 45%;
+    --accent: 340 45% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 142 30% 35%;
+    --radius: 0.5rem;
+    
+    /* Custom colors */
+    --sage: 142 25% 45%;
+    --sage-light: 142 20% 92%;
+    --cream: 45 40% 97%;
+    --warm-white: 40 30% 98%;
+    --earth: 30 20% 35%;
+    --blush: 340 45% 65%;
+    --lavender: 260 30% 75%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .font-sans {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-sage {
+    background-color: hsl(var(--sage));
+  }
+  
+  .bg-cream {
+    background-color: hsl(var(--cream));
+  }
+  
+  .bg-warm-white {
+    background-color: hsl(var(--warm-white));
+  }
+  
+  .text-earth {
+    color: hsl(var(--earth));
+  }
+  
+  .text-sage {
+    color: hsl(var(--sage));
+  }
+  
+  .border-sage {
+    border-color: hsl(var(--sage));
+  }
+  
+  .shadow-soft {
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+  }
+  
+  .shadow-elegant {
+    box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.12);
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: 10px;
+    gap: 1rem;
+  }
+  
+  .masonry-item {
+    grid-row: span var(--row-span, 20);
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--cream));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--sage));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Lightbox styles */
+.lightbox-overlay {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+/* WhatsApp button animation */
+.whatsapp-pulse {
+  animation: whatsappPulse 2s infinite;
+}
+
+@keyframes whatsappPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* Image hover effect */
+.image-zoom {
+  overflow: hidden;
+}
+
+.image-zoom img {
+  transition: transform 0.5s ease;
+}
+
+.image-zoom:hover img {
+  transform: scale(1.08);
+}

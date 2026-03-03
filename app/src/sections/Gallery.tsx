@@ -3,7 +3,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { flowerItems, categories as defaultCategories, occasions, type Category, type Occasion } from '@/data/flowers';
+import { flowerItems, categories as defaultCategories, occasions, type Occasion } from '@/data/flowers';
 import { useProducts, useCategories } from '@/hooks/useLocalStorage';
 import { Check, X, Filter, MessageCircle, Package } from 'lucide-react';
 import { businessInfo } from '@/data/flowers';
@@ -323,7 +323,7 @@ export function Gallery() {
 
                   {selectedItem.occasions && selectedItem.occasions.length > 0 && (
                     <div className="flex flex-wrap gap-2 mb-8">
-                      {selectedItem.occasions.map((occ) => {
+                      {selectedItem.occasions.map((occ: string) => {
                         const occasion = occasions.find(o => o.id === occ);
                         return occasion ? (
                           <span

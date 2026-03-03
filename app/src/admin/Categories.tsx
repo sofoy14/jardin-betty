@@ -3,12 +3,12 @@ import { useCategories } from '@/hooks/useLocalStorage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Search, Plus, Pencil, Trash2, Tags, Palette, Heart, Gift, Sparkles, PartyPopper, Ring, Dove, Flower } from 'lucide-react';
+import { Search, Plus, Pencil, Trash2, Tags, Palette, Heart, Gift, Sparkles, PartyPopper, Flower } from 'lucide-react';
 import type { Category } from '@/types';
 
 const ICONS = [
@@ -17,8 +17,6 @@ const ICONS = [
   { id: 'heart', name: 'Corazón', icon: Heart },
   { id: 'party', name: 'Fiesta', icon: PartyPopper },
   { id: 'gift', name: 'Regalo', icon: Gift },
-  { id: 'ring', name: 'Anillo', icon: Ring },
-  { id: 'dove', name: 'Paloma', icon: Dove },
   { id: 'palette', name: 'Paleta', icon: Palette }
 ];
 

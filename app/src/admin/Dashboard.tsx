@@ -202,9 +202,9 @@ export function Dashboard() {
                       <td className="py-3 px-4 text-sm">{formatDate(order.deliveryDate)}</td>
                       <td className="py-3 px-4 text-sm font-medium">{formatCurrency(order.total)}</td>
                       <td className="py-3 px-4">
-                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-white ${ORDER_STATUS_COLORS[order.status] || 'bg-gray-500'}`}>
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-white ${ORDER_STATUS_COLORS[order.status as keyof typeof ORDER_STATUS_COLORS] || 'bg-gray-500'}`}>
                           {order.status === 'delivered' && <CheckCircle className="w-3 h-3" />}
-                          {ORDER_STATUS_LABELS[order.status] || order.status}
+                          {ORDER_STATUS_LABELS[order.status as keyof typeof ORDER_STATUS_LABELS] || order.status}
                         </span>
                       </td>
                     </tr>

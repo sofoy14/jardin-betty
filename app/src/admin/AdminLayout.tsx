@@ -8,7 +8,6 @@ import {
   ShoppingCart, 
   LogOut,
   Menu,
-  X,
   Flower2
 } from 'lucide-react';
 import { useState } from 'react';

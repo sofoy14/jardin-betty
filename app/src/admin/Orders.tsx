@@ -1,21 +1,19 @@
 import { useState } from 'react';
-import { useOrders, useProducts } from '@/hooks/useLocalStorage';
+import { useOrders } from '@/hooks/useLocalStorage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, ShoppingCart, Eye, Trash2, Package, CheckCircle, Clock, Truck, XCircle } from 'lucide-react';
+import { Search, ShoppingCart, Eye, Trash2, Package, Clock, Truck, XCircle } from 'lucide-react';
 import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS, PAYMENT_METHOD_LABELS, type Order, type OrderStatus } from '@/types';
 
 const STATUS_FLOW: OrderStatus[] = ['pending', 'confirmed', 'preparing', 'ready', 'delivered'];
 
 export function Orders() {
   const { orders, updateOrder, deleteOrder } = useOrders();
-  const { products } = useProducts();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -175,8 +173,8 @@ export function Orders() {
                           <td className="py-3 px-4 text-sm">{formatDate(order.deliveryDate)}</td>
                           <td className="py-3 px-4 text-sm font-medium">{formatCurrency(order.total)}</td>
                           <td className="py-3 px-4">
-                            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-white ${ORDER_STATUS_COLORS[order.status]}`}>
-                              {ORDER_STATUS_LABELS[order.status]}
+                            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-white ${ORDER_STATUS_COLORS[order.status as keyof typeof ORDER_STATUS_COLORS] || 'bg-gray-500'}`}>
+                              {ORDER_STATUS_LABELS[order.status as keyof typeof ORDER_STATUS_LABELS] || order.status}
                             </span>
                           </td>
                           <td className="py-3 px-4">

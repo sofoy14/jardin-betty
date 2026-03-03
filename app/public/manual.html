@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - Panel Administrativo Jardín Betty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #15803d;
+            --primary-light: #dcfce7;
+            --rose: #e11d48;
+            --rose-light: #ffe4e6;
+            --gold: #d97706;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --bg-cream: #fefdfb;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            line-height: 1.7;
+            background: var(--bg-cream);
+        }
+
+        /* Portada */
+        .cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #dcfce7 0%, #fef3c7 50%, #fce7f3 100%);
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.5;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            box-shadow: 0 20px 40px rgba(22, 163, 74, 0.3);
+        }
+
+        .logo-icon svg {
+            width: 60px;
+            height: 60px;
+            color: white;
+        }
+
+        .cover h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cover .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .cover .version {
+            display: inline-block;
+            background: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .cover-footer {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Contenido */
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            background: white;
+        }
+
+        /* Índice */
+        .toc {
+            background: linear-gradient(to right, var(--primary-light), transparent);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 60px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .toc h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toc li:last-child {
+            border-bottom: none;
+        }
+
+        .toc-number {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* Secciones */
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text);
+            margin: 35px 0 20px;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin: 25px 0 15px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 5px solid #3b82f6;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .info-box.tip {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left-color: var(--gold);
+        }
+
+        .info-box.important {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+            border-left-color: var(--rose);
+        }
+
+        .info-box.success {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-left-color: var(--primary);
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Credenciales */
+        .credentials {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #fef3c7 100%);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 30px 0;
+            border: 2px dashed var(--primary);
+        }
+
+        .credentials h4 {
+            margin-top: 0;
+            font-size: 1.3rem;
+        }
+
+        .credential-item {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: inline-block;
+            min-width: 300px;
+        }
+
+        .credential-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .credential-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-family: monospace;
+            margin-top: 5px;
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+            list-style: none;
+        }
+
+        .steps li {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 30px;
+            min-height: 50px;
+        }
+
+        .steps li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);
+        }
+
+        .steps li strong {
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 25px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(22, 163, 74, 0.1);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .feature-card h4 {
+            margin: 0 0 10px 0;
+        }
+
+        .feature-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95rem;
+        }
+
+        .data-table th {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table tr:hover td {
+            background: #f9fafb;
+        }
+
+        /* Status Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-yellow {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-purple {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .badge-red {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Icons */
+        .icon-inline {
+            display: inline-flex;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        /* Page Break */
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+        }
+
+        /* Print Styles */
+        @media print {
+            .cover {
+                min-height: 100vh;
+                page-break-after: always;
+            }
+
+            .content {
+                padding: 40px;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .feature-card {
+                break-inside: avoid;
+            }
+
+            .info-box {
+                break-inside: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cover h1 {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .credential-item {
+                min-width: auto;
+                width: 100%;
+            }
+        }
+
+        /* Footer page */
+        .final-page {
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to bottom, white, var(--primary-light));
+            padding: 60px 40px;
+            margin-top: 60px;
+            border-radius: 30px;
+        }
+
+        .final-page h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PORTADA -->
+    <div class="cover">
+        <div class="cover-content">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+            </div>
+            <div class="subtitle">Manual de Usuario</div>
+            <h1>Panel Administrativo<br>Jardín Betty</h1>
+            <p style="font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">
+                Guía completa para gestionar productos, categorías y pedidos de tu florería
+            </p>
+            <div class="version">Versión 1.0 - 2026</div>
+        </div>
+        <div class="cover-footer">
+            <p>❤️ 14 años cuidando los momentos más importantes</p>
+        </div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="content">
+
+        <!-- ÍNDICE -->
+        <div class="toc">
+            <h2>📋 Contenido</h2>
+            <ul>
+                <li><span class="toc-number">1</span> Acceso al Sistema</li>
+                <li><span class="toc-number">2</span> Primeros Pasos</li>
+                <li><span class="toc-number">3</span> Gestión de Productos</li>
+                <li><span class="toc-number">4</span> Gestión de Categorías</li>
+                <li><span class="toc-number">5</span> Gestión de Pedidos</li>
+                <li><span class="toc-number">6</span> Dashboard y Estadísticas</li>
+                <li><span class="toc-number">7</span> Preguntas Frecuentes</li>
+                <li><span class="toc-number">8</span> Soporte y Contacto</li>
+            </ul>
+        </div>
+
+        <!-- SECCIÓN 1 -->
+        <section id="acceso">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                1. Acceso al Sistema
+            </h2>
+
+            <p>El <strong>Panel Administrativo de Jardín Betty</strong> te permite gestionar todo tu catálogo de productos, categorías personalizadas y pedidos desde cualquier dispositivo con conexión a internet.</p>
+
+            <h3>🔗 URL de Acceso</h3>
+            <div class="info-box">
+                <div class="info-box-title">🌐 Dirección del Panel</div>
+                <p style="font-family: monospace; font-size: 1.1rem; margin: 0;">https://[tu-dominio]/admin</p>
+            </div>
+
+            <h3>🔐 Credenciales de Acceso</h3>
+            <div class="credentials">
+                <h4>Datos de Inicio de Sesión</h4>
+                <div class="credential-item">
+                    <div class="credential-label">Usuario</div>
+                    <div class="credential-value">admin</div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-label">Contraseña</div>
+                    <div class="credential-value">jardinbetty2024</div>
+                </div>
+            </div>
+
+            <div class="info-box important">
+                <div class="info-box-title">⚠️ Importante - Seguridad</div>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li>No compartas estas credenciales con personas no autorizadas</li>
+                    <li>Cambia tu contraseña periódicamente</li>
+                    <li>Cierra sesión al terminar de trabajar</li>
+                    <li>El sistema mantiene la sesión activa hasta que cierres el navegador</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2 -->
+        <section id="primeros-pasos" class="page-break">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                2. Primeros Pasos
+            </h2>
+
+            <p>Al ingresar por primera vez al panel, encontrarás el sistema vacío listo para configurar. Sigue estos pasos para comenzar:</p>
+
+            <h3>🚀 Configuración Inicial</h3>
+            <ol class="steps">
+                <li>
+                    <strong>Cargar las categorías por defecto</strong>
+                    Ve a la sección "Categorías" y haz clic en el botón verde "Cargar categorías por defecto". Esto creará las categorías básicas como Ramos, Arreglos, Funerales, Bodas, San Valentín, etc.
+                </li>
+                <li>
+                    <strong>Cargar los productos existentes</strong>
+                    Ve a "Productos" y haz clic en "Cargar productos existentes". Esto importará los 18 arreglos fotográficos que ya tienes, para que puedas editarlos.
+                </li>
+                <li>
+                    <strong>Personaliza las categorías</strong>
+                    Edita los nombres, colores e iconos de las categorías según tu preferencia.
+                </li>
+                <li>
+                    <strong>Actualiza los productos</strong>
+                    Modifica precios, descripciones y detalles de cada arreglo floral.
+                </li>
+            </ol>
+
+            <div class="info-box success">
+                <div class="info-box-title">✅ ¡Listo!</div>
+                <p>Una vez completados estos pasos, tu catálogo estará visible en la página principal y podrás comenzar a recibir pedidos.</p>
+            </div>
+
+            <h3>🎨 Elementos del Panel</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <h4>Dashboard</h4>
+                    <p>Vista general con estadísticas de ventas, pedidos pendientes y productos activos.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        </svg>
+                    </div>
+                    <h4>Productos</h4>
+                    <p>Crear, editar y eliminar productos ilimitados con fotos, precios y descripciones.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>
+                    </div>
+                    <h4>Categorías</h4>
+                    <p>Gestionar categorías personalizadas: Bodas, San Valentín, Condolencias, etc.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                    </div>
+                    <h4>Pedidos</h4>
+                    <p>Ver y gestionar todos los pedidos con seguimiento de estados en tiempo real.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3 -->
+        <section id="productos" class="page-break">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+                3. Gestión de Productos
+            </h2>
+
+            <p>La sección de <strong>Productos</strong> te permite administrar todo tu catálogo de arreglos florales. Puedes crear productos ilimitados, editar los existentes y controlar su visibilidad.</p>
+
+            <h3>➕ Crear un Nuevo Producto</h3>
+            <ol class="steps">
+                <li>
+                    <strong>Accede a la sección Productos</strong>
+                    Haz clic en "Productos" en el menú lateral izquierdo.
+                </li>
+                <li>
+                    <strong>Haz clic en "Nuevo Producto"</strong>
+                    Aparecerá un formulario completo para ingresar los datos.
+                </li>
+                <li>
+                    <strong>Completa la información</strong>
+                    Nombre, categoría, precio, descripción, stock y foto.
+                </li>
+                <li>
+                    <strong>Selecciona ocasiones</strong>
+                    Indica para qué ocasiones es apto el arreglo (Amor, Cumpleaños, etc.).
+                </li>
+                <li>
+                    <strong>Guardar</strong>
+                    El producto aparecerá inmediatamente en la galería de tu página web.
+                </li>
+            </ol>
+
+            <h3>✏️ Editar Productos Existentes</h3>
+            <div class="info-box tip">
+                <div class="info-box-title">💡 Tip Importante</div>
+                <p>Los productos que ya tenías fotografiados (los 18 arreglos originales) pueden editarse completamente. Solo debes cargarlos primero con el botón "Cargar productos existentes".</p>
+            </div>
+
+            <p>Para editar cualquier producto:</p>
+            <ol class="steps">
+                <li>
+                    <strong>Busca el producto</strong>
+                    Usa el buscador en la parte superior o desplázate por la lista.
+                </li>
+                <li>
+                    <strong>Haz clic en el ícono de lápiz</strong>
+                    Se abrirá el formulario con todos los datos actuales.
+                </li>
+                <li>
+                    <strong>Modifica los campos</strong>
+                    Cambia lo que necesites: precio, nombre, descripción, etc.
+                </li>
+                <li>
+                    <strong>Guarda los cambios</strong>
+                    Los cambios se reflejan inmediatamente en la página web.
+                </li>
+            </ol>
+
+            <h3>📋 Campos de Producto</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Descripción</th>
+                        <th>Obligatorio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Nombre</strong></td>
+                        <td>Nombre del arreglo floral</td>
+                        <td><span class="badge badge-green">Sí</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Categoría</strong></td>
+                        <td>Grupo al que pertenece</td>
+                        <td><span class="badge badge-green">Sí</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Precio</strong></td>
+                        <td>Valor en pesos colombianos</td>
+                        <td><span class="badge badge-yellow">Recomendado</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rango de Precio</strong></td>
+                        <td>Texto descriptivo (ej: "$80.000 - $150.000")</td>
+                        <td><span class="badge badge-blue">Opcional</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Descripción</strong></td>
+                        <td>Detalles del arreglo</td>
+                        <td><span class="badge badge-green">Sí</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Imagen</strong></td>
+                        <td>Ruta de la foto (ej: /images/foto.jpg)</td>
+                        <td><span class="badge badge-green">Sí</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stock</strong></td>
+                        <td>Cantidad disponible</td>
+                        <td><span class="badge badge-blue">Opcional</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ocasiones</strong></td>
+                        <td>Amor, Cumpleaños, Condolencias, etc.</td>
+                        <td><span class="badge badge-blue">Opcional</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Destacado</strong></td>
+                        <td>Aparece con badge especial</td>
+                        <td><span class="badge badge-blue">Opcional</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Disponible</strong></td>
+                        <td>Mostrar/ocultar en la web</td>
+                        <td><span class="badge badge-green">Sí</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>📁 Importar y Exportar</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #dbeafe; color: #1e40af;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <h4>Importar JSON</h4>
+                    <p>Carga múltiples productos desde un archivo Excel convertido a JSON.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #dcfce7; color: #166534;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </div>
+                    <h4>Exportar JSON</h4>
+                    <p>Descarga un respaldo de todos tus productos para guardarlo seguro.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">📂 Ubicación de Imágenes</div>
+                <p>Las fotos deben guardarse en la carpeta:</p>
+                <code style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px; display: block; margin-top: 10px;">app/public/images/</code>
+                <p style="margin-top: 10px;">Y en el producto se referencian como: <code>/images/nombre-foto.jpg</code></p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4 -->
+        <section id="categorias" class="page-break">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                    <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                </svg>
+                4. Gestión de Categorías
+            </h2>
+
+            <p>Las <strong>categorías</strong> organizan tus productos y permiten a los clientes filtrar según sus necesidades. Puedes crear categorías ilimitadas con colores e iconos personalizados.</p>
+
+            <h3>🎨 Categorías Sugeridas</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #fce7f3; color: #be185d;">❤️</div>
+                    <h4>San Valentín</h4>
+                    <p>Arreglos especiales para el día del amor y amistad.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #fef3c7; color: #b45309;">💍</div>
+                    <h4>Bodas</h4>
+                    <p>Decoración completa para ceremonias y recepciones.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #e5e7eb; color: #4b5563;">🕊️</div>
+                    <h4>Condolencias</h4>
+                    <p>Coronas, cruces y arreglos para funerales.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #dbeafe; color: #1e40af;">🎂</div>
+                    <h4>Cumpleaños</h4>
+                    <p>Arreglos festivos con globos y colores vivos.</p>
+                </div>
+            </div>
+
+            <h3>➕ Crear una Categoría</h3>
+            <ol class="steps">
+                <li>
+                    <strong>Ve a Categorías</strong>
+                    En el menú lateral, selecciona "Categorías".
+                </li>
+                <li>
+                    <strong>Haz clic en "Nueva Categoría"</strong>
+                    Se abrirá el formulario de creación.
+                </li>
+                <li>
+                    <strong>Personaliza los detalles</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li><strong>Nombre:</strong> Ej. "San Valentín"</li>
+                        <li><strong>Descripción:</strong> Breve explicación de qué incluye</li>
+                        <li><strong>Icono:</strong> Selecciona uno de los 8 disponibles</li>
+                        <li><strong>Color:</strong> Elige un color representativo</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Guardar</strong>
+                    La categoría aparecerá en los filtros de la galería.
+                </li>
+            </ol>
+
+            <h3>🎯 Personalización Visual</h3>
+            <p>Cada categoría puede tener:</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Elemento</th>
+                        <th>Descripción</th>
+                        <th>Ejemplo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Icono</strong></td>
+                        <td>8 opciones: Flor, Corazón, Regalo, Fiesta, etc.</td>
+                        <td>❤️ Corazón para San Valentín</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Color</strong></td>
+                        <td>20 colores predefinidos + personalizado</td>
+                        <td>Rojo #f44336 para San Valentín</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Estado</strong></td>
+                        <td>Activa o Inactiva</td>
+                        <td>Inactiva = no aparece en filtros</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box tip">
+                <div class="info-box-title">💡 Consejo de Diseño</div>
+                <p>Usa colores que representen la emoción de cada categoría:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Rojo/Rosa:</strong> Amor, San Valentín, Romance</li>
+                    <li><strong>Dorado:</strong> Bodas, Elegancia</li>
+                    <li><strong>Blanco/Gris:</strong> Condolencias, Funerales</li>
+                    <li><strong>Amarillo/Naranja:</strong> Cumpleaños, Alegría</li>
+                    <li><strong>Verde:</strong> Naturaleza, Ramos</li>
+                </ul>
+            </div>
+
+            <h3>⚠️ Importante: Eliminación</h3>
+            <div class="info-box important">
+                <div class="info-box-title">⚠️ Atención</div>
+                <p>Si eliminas una categoría, los productos asociados <strong>no se eliminan</strong>, pero quedarán sin categoría asignada. Te recomendamos cambiar la categoría de esos productos antes de eliminarla.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5 -->
+        <section id="pedidos" class="page-break">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                5. Gestión de Pedidos
+            </h2>
+
+            <p>El sistema de <strong>pedidos</strong> te permite recibir, organizar y hacer seguimiento de todas las compras de tus clientes desde la página web.</p>
+
+            <h3>📊 Estados de Pedido</h3>
+            <p>Cada pedido pasa por diferentes estados que reflejan su avance:</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Color</th>
+                        <th>Significado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-yellow">Pendiente</span></td>
+                        <td>🟡 Amarillo</td>
+                        <td>Pedido recibido, esperando confirmación</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-blue">Confirmado</span></td>
+                        <td>🔵 Azul</td>
+                        <td>Pedido aceptado, preparando materiales</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-purple">En preparación</span></td>
+                        <td>🟣 Morado</td>
+                        <td>Armando el arreglo floral</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge" style="background: #fed7aa; color: #9a3412;">Listo</span></td>
+                        <td>🟠 Naranja</td>
+                        <td>Arreglo listo para entrega</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-green">Entregado</span></td>
+                        <td>🟢 Verde</td>
+                        <td>Pedido entregado al cliente</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-red">Cancelado</span></td>
+                        <td>🔴 Rojo</td>
+                        <td>Pedido cancelado</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🔄 Flujo de Trabajo</h3>
+            <ol class="steps">
+                <li>
+                    <strong>Recibir Pedido</strong>
+                    Cuando un cliente hace un pedido desde la web, aparece automáticamente con estado "Pendiente".
+                </li>
+                <li>
+                    <strong>Revisar Detalles</strong>
+                    Haz clic en el ícono de ojo 👁️ para ver todos los datos: productos, dirección, mensaje, etc.
+                </li>
+                <li>
+                    <strong>Confirmar Pedido</strong>
+                    Cambia el estado a "Confirmado" para indicar que lo estás procesando.
+                </li>
+                <li>
+                    <strong>Preparar Arreglo</strong>
+                    Mientras armas el arreglo, mantén el estado "En preparación".
+                </li>
+                <li>
+                    <strong>Listo para Entrega</strong>
+                    Cuando esté listo, marca como "Listo" para que el repartidor lo recoja.
+                </li>
+                <li>
+                    <strong>Entregar</strong>
+                    Finalmente, marca como "Entregado" cuando el cliente reciba su pedido.
+                </li>
+            </ol>
+
+            <h3>📋 Información del Pedido</h3>
+            <p>Al abrir un pedido verás:</p>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><strong>Datos del cliente:</strong> Nombre, teléfono, email</li>
+                <li><strong>Dirección de entrega:</strong> Completa con referencias</li>
+                <li><strong>Fecha y hora:</strong> Cuándo debe entregarse</li>
+                <li><strong>Productos:</strong> Lista detallada con cantidades y precios</li>
+                <li><strong>Mensaje:</strong> Texto para la tarjeta (si aplica)</li>
+                <li><strong>Total:</strong> Valor completo del pedido</li>
+                <li><strong>Método de pago:</strong> Efectivo, transferencia o tarjeta</li>
+                <li><strong>Notas internas:</strong> Comentarios para ti (no las ve el cliente)</li>
+            </ul>
+
+            <div class="info-box success">
+                <div class="info-box-title">💰 Control de Pagos</div>
+                <p>Cada pedido muestra el estado del pago:</p>
+                <ul style="margin: 10px 0 0 20px;">
+                    <li><strong>Pendiente:</strong> Aún no se ha pagado</li>
+                    <li><strong>Pagado:</strong> Pago confirmado</li>
+                </ul>
+                <p style="margin-top: 10px;">Actualiza manualmente según recibas el dinero.</p>
+            </div>
+
+            <h3>📅 Pedidos por Fecha</h3>
+            <p>El panel tiene pestañas para filtrar pedidos:</p>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><strong>Todos:</strong> Historial completo</li>
+                <li><strong>Pendientes:</strong> Requieren atención urgente</li>
+                <li><strong>Activos:</strong> En proceso (confirmados, preparando, listos)</li>
+                <li><strong>Entregados:</strong> Completados exitosamente</li>
+                <li><strong>Cancelados:</strong> Pedidos anulados</li>
+            </ul>
+
+            <div class="info-box tip">
+                <div class="info-box-title">📱 Notificación al Cliente</div>
+                <p>Recomienda a tus clientes que te contacten por WhatsApp para confirmar el pedido. El sistema no envía notificaciones automáticas, pero tú puedes ver los pedidos en tiempo real.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6 -->
+        <section id="dashboard" class="page-break">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                6. Dashboard y Estadísticas
+            </h2>
+
+            <p>El <strong>Dashboard</strong> es tu pantalla principal donde obtienes una vista rápida del estado de tu negocio.</p>
+
+            <h3>📈 Tarjetas de Estadísticas</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        </svg>
+                    </div>
+                    <h4>Total Productos</h4>
+                    <p>Cantidad de productos en tu catálogo y cuántos están disponibles.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #dbeafe; color: #1e40af;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                        </svg>
+                    </div>
+                    <h4>Categorías Activas</h4>
+                    <p>Número de categorías que están visibles para los clientes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #f3e8ff; color: #6b21a8;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                    </div>
+                    <h4>Pedidos Totales</h4>
+                    <p>Cantidad de pedidos recibidos y cuántos están pendientes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #fef3c7; color: #92400e;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h4>Ingresos</h4>
+                    <p>Sumatoria de ventas confirmadas y pagadas.</p>
+                </div>
+            </div>
+
+            <h3>⚡ Accesos Rápidos</h3>
+            <p>El dashboard incluye botones para acciones frecuentes:</p>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><strong>Agregar Producto:</strong> Crea un nuevo arreglo rápidamente</li>
+                <li><strong>Gestionar Categorías:</strong> Ve directo a la sección de categorías</li>
+                <li><strong>Pedidos Hoy:</strong> Filtra los pedidos programados para hoy</li>
+            </ul>
+
+            <h3>📜 Pedidos Recientes</h3>
+            <p>En la parte inferior del dashboard se muestran los últimos 5 pedidos con:</p>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li>ID del pedido</li>
+                <li>Nombre del cliente</li>
+                <li>Fecha de entrega</li>
+                <li>Total a pagar</li>
+                <li>Estado actual</li>
+            </ul>
+            <p>Haz clic en "Ver todos" para acceder al listado completo.</p>
+        </section>
+
+        <!-- SECCIÓN 7 -->
+        <section id="faq" class="page-break">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                7. Preguntas Frecuentes
+            </h2>
+
+            <h3>❓ Preguntas Generales</h3>
+
+            <h4>¿Los cambios se ven inmediatamente en la página web?</h4>
+            <p><strong>Sí.</strong> Cualquier modificación que hagas en productos o categorías se refleja instantáneamente en la galería de tu sitio web. No necesitas recargar ni esperar.</p>
+
+            <h4>¿Cuántos productos puedo crear?</h4>
+            <p><strong>Ilimitados.</strong> No hay límite de productos. Puedes tener 10, 100 o 1000 arreglos en tu catálogo.</p>
+
+            <h4>¿Qué pasa si elimino un producto?</h4>
+            <p>El producto desaparece completamente de la página web. Si solo quieres ocultarlo temporalmente, usa la opción "Disponible: No" en lugar de eliminarlo.</p>
+
+            <h4>¿Puedo recuperar productos eliminados?</h4>
+            <p><strong>No.</strong> La eliminación es permanente. Te recomendamos exportar un respaldo de tus productos periódicamente.</p>
+
+            <h3>🔧 Preguntas Técnicas</h3>
+
+            <h4>¿Los datos se guardan en la nube?</h4>
+            <p><strong>No.</strong> Actualmente los datos se guardan en el navegador (localStorage). Esto significa que si borras el historial del navegador, puedes perder los datos. Por eso es importante usar la función "Exportar" para hacer respaldos.</p>
+
+            <h4>¿Puedo acceder desde mi celular?</h4>
+            <p><strong>Sí.</strong> El panel es responsive y funciona perfectamente en celulares y tablets.</p>
+
+            <h4>¿Qué navegador recomiendan?</h4>
+            <p>Chrome, Firefox, Safari o Edge en sus versiones actualizadas. Evita Internet Explorer.</p>
+
+            <h3>💰 Preguntas sobre Pedidos</h3>
+
+            <h4>¿Cómo recibo notificación de nuevos pedidos?</h4>
+            <p>Debes revisar periódicamente el panel. Te recomendamos habilitar notificaciones del navegador o revisar al menos 3 veces al día (mañana, tarde y noche).</p>
+
+            <h4>¿El cliente puede pagar online?</h4>
+            <p>Actualmente el sistema registra pedidos para pago contra entrega. Si deseas integrar pagos online (PayU, MercadoPago, etc.), contacta a tu desarrollador.</p>
+
+            <h4>¿Puedo imprimir los pedidos?</h4>
+            <p><strong>Sí.</strong> Abre el detalle del pedido y usa Ctrl+P (o Cmd+P en Mac) para imprimir o guardar como PDF.</p>
+        </section>
+
+        <!-- SECCIÓN 8 -->
+        <section id="soporte" class="page-break">
+            <h2>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                    <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                8. Soporte y Contacto
+            </h2>
+
+            <p>Si tienes alguna duda, problema o necesitas ayuda con el sistema, no dudes en contactarnos.</p>
+
+            <div class="final-page">
+                <h3>🌸 Estamos aquí para ayudarte</h3>
+                <p style="color: var(--text-light); margin-bottom: 30px;">
+                    Gracias por confiar en nosotros para tu negocio.<br>
+                    Jardín Betty - 14 años de tradición familiar.
+                </p>
+
+                <div class="contact-info">
+                    <h4 style="margin-top: 0; color: var(--primary-dark);">📞 Contacto de Soporte</h4>
+                    <p style="margin: 15px 0;">
+                        <strong>Teléfono:</strong> +57 322 374 0029<br>
+                        <strong>Email:</strong> jardinbetty@gmail.com<br>
+                        <strong>Horario:</strong> Lunes a Sábado 8:00 AM - 7:00 PM
+                    </p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;">
+                        Tiempo de respuesta: 24-48 horas hábiles
+                    </p>
+                </div>
+
+                <div style="margin-top: 40px; padding: 20px; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <p style="margin: 0; font-size: 0.9rem; color: var(--text-light);">
+                        <strong>📄 Versión del documento:</strong> 1.0<br>
+                        <strong>📅 Fecha:</strong> Marzo 2026<br>
+                        <strong>🌐 Sistema:</strong> Panel Administrativo Jardín Betty
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Smooth scroll para los enlaces del índice
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Agregar clase para imprimir desde el índice
+        document.querySelectorAll('.toc li').forEach((item, index) => {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', () => {
+                const sections = document.querySelectorAll('section');
+                if (sections[index]) {
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

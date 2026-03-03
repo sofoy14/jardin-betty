@@ -286,8 +286,16 @@ export function Gallery() {
       </div>
 
       {/* Lightbox Dialog */}
-      <Dialog open={!!selectedItem} onOpenChange={() => setSelectedItem(null)}>
-        <DialogContent className="max-w-5xl p-0 overflow-hidden bg-white">
+      <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+        <DialogContent className="max-w-5xl p-0 overflow-hidden bg-white" onInteractOutside={() => setSelectedItem(null)} onEscapeKeyDown={() => setSelectedItem(null)}>
+          {/* Botón cerrar */}
+          <button
+            onClick={() => setSelectedItem(null)}
+            className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all"
+            aria-label="Cerrar"
+          >
+            <X className="w-5 h-5 text-gray-700" />
+          </button>
           {selectedItem && (
             <div className="grid md:grid-cols-2">
               {/* Image */}
@@ -362,20 +370,16 @@ export function Gallery() {
                 </div>
 
                 {/* CTA */}
-                <a
-                  href={whatsappUrl(selectedItem.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full"
+                <Button
+                  size="lg"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg"
+                  onClick={() => {
+                    window.open(whatsappUrl(selectedItem.name), '_blank', 'noopener,noreferrer');
+                  }}
                 >
-                  <Button
-                    size="lg"
-                    className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg"
-                  >
-                    <MessageCircle className="w-6 h-6 mr-3" />
-                    Cotizar por WhatsApp
-                  </Button>
-                </a>
+                  <MessageCircle className="w-6 h-6 mr-3" />
+                  Cotizar por WhatsApp
+                </Button>
               </div>
             </div>
           )}

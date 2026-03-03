@@ -8,7 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Search, Plus, Pencil, Trash2, Tags, Palette, Heart, Gift, Sparkles, PartyPopper, Flower } from 'lucide-react';
+import { Search, Plus, Pencil, Trash2, Tags, Palette, Heart, Gift, Sparkles, PartyPopper, Flower, Download } from 'lucide-react';
+import { categories as defaultCategories } from '@/data/flowers';
 import type { Category } from '@/types';
 
 const ICONS = [
@@ -68,6 +69,20 @@ export function Categories() {
   const handleDelete = (id: string) => {
     if (confirm('¿Estás seguro de eliminar esta categoría? Los productos asociados quedarán sin categoría.')) {
       deleteCategory(id);
+    }
+  };
+
+  const handleImportDefault = () => {
+    if (confirm(`Esto importará ${defaultCategories.length} categorías predefinidas. ¿Continuar?`)) {
+      const defaultCats = defaultCategories.map(cat => ({
+        ...cat,
+        icon: 'flower',
+        color: '#e91e63',
+        active: true,
+        createdAt: new Date().toISOString()
+      }));
+      defaultCats.forEach(cat => addCategory(cat));
+      alert(`${defaultCats.length} categorías importadas. Ahora puedes editarlas.`);
     }
   };
 

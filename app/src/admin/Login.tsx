@@ -102,10 +102,7 @@ export function Login() {
               )}
             </Button>
           </form>
-          <div className="mt-6 text-center text-sm text-gray-500">
-            <p>Usuario demo: <strong>admin</strong></p>
-            <p>Contraseña: <strong>jardinbetty2024</strong></p>
-          </div>
+
         </CardContent>
       </Card>
     </div>

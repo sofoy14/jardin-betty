@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Flower2, Menu, X, MessageCircle } from 'lucide-react';
+import { Flower2, Menu, X, MessageCircle, Lock } from 'lucide-react';
 import { businessInfo } from '@/data/flowers';
+import { Link } from 'react-router-dom';
 
 const navLinks = [
   { label: 'Inicio', href: '#' },
@@ -169,6 +170,14 @@ export function Navigation() {
               <p className="text-sm text-muted-foreground mt-1">
                 Barrios Unidos, Bogotá
               </p>
+              <Link 
+                to="/admin" 
+                className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-green-600 mt-4"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Lock className="w-3 h-3" />
+                Panel Administrativo
+              </Link>
             </div>
           </div>
         </div>

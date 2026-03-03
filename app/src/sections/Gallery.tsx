@@ -1,32 +1,81 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { flowerItems, categories, occasions, type Category, type Occasion } from '@/data/flowers';
-import { Check, X, Filter, MessageCircle } from 'lucide-react';
+import { flowerItems, categories as defaultCategories, occasions, type Category, type Occasion } from '@/data/flowers';
+import { useProducts, useCategories } from '@/hooks/useLocalStorage';
+import { Check, X, Filter, MessageCircle, Package } from 'lucide-react';
 import { businessInfo } from '@/data/flowers';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Fallback to default data if localStorage is empty
+const useGalleryData = () => {
+  const { products, isLoaded: productsLoaded } = useProducts();
+  const { categories, isLoaded: categoriesLoaded, initializeDefaultCategories } = useCategories();
+
+  useEffect(() => {
+    if (categoriesLoaded && categories.length === 0) {
+      initializeDefaultCategories();
+    }
+  }, [categoriesLoaded, categories.length, initializeDefaultCategories]);
+
+  // Use localStorage products if available and not empty, otherwise use default flowerItems
+  const displayProducts = (productsLoaded && products.length > 0) ? products : flowerItems;
+  
+  // Use localStorage categories if available and not empty, otherwise use default categories
+  const displayCategories = (categoriesLoaded && categories.length > 0) 
+    ? categories.filter(c => c.active).map(c => ({ id: c.id, name: c.name, description: c.description }))
+    : defaultCategories;
+
+  return {
+    products: displayProducts,
+    categories: displayCategories,
+    isLoaded: productsLoaded && categoriesLoaded
+  };
+};
+
 export function Gallery() {
-  const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
+  const { products, categories, isLoaded } = useGalleryData();
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedOccasion, setSelectedOccasion] = useState<Occasion | 'all'>('all');
-  const [selectedItem, setSelectedItem] = useState<typeof flowerItems[0] | null>(null);
+  const [selectedItem, setSelectedItem] = useState<typeof products[0] | null>(null);
   const [showFilters, setShowFilters] = useState(false);
 
   const filteredItems = useMemo(() => {
-    return flowerItems.filter((item) => {
-      const categoryMatch = selectedCategory === 'all' || item.category === selectedCategory;
-      const occasionMatch = selectedOccasion === 'all' || item.occasions.includes(selectedOccasion);
-      return categoryMatch && occasionMatch;
+    return products.filter((item) => {
+      const categoryMatch = selectedCategory === 'all' || item.category === selectedCategory || item.categoryId === selectedCategory;
+      const occasionMatch = selectedOccasion === 'all' || item.occasions?.includes(selectedOccasion);
+      return categoryMatch && occasionMatch && item.available !== false;
     });
-  }, [selectedCategory, selectedOccasion]);
+  }, [products, selectedCategory, selectedOccasion]);
 
   const whatsappUrl = (itemName: string) => {
     const message = `Hola, vi su página web y estoy interesado en cotizar el arreglo: "${itemName}"`;
     return `https://wa.me/${businessInfo.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
   };
+
+  const formatPrice = (item: typeof products[0]) => {
+    if (item.price && item.price > 0) {
+      return new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 0
+      }).format(item.price);
+    }
+    return item.priceRange || 'Consultar precio';
+  };
+
+  if (!isLoaded) {
+    return (
+      <section id="galeria" className="py-24 lg:py-32 bg-white">
+        <div className="container mx-auto px-4 flex items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="galeria" className="py-24 lg:py-32 bg-white">
@@ -69,7 +118,7 @@ export function Gallery() {
             {/* Category Tabs */}
             <Tabs
               value={selectedCategory}
-              onValueChange={(v) => setSelectedCategory(v as Category | 'all')}
+              onValueChange={(v) => setSelectedCategory(v)}
               className="w-full"
             >
               <TabsList className="flex flex-wrap justify-center h-auto gap-2 bg-transparent">
@@ -120,7 +169,7 @@ export function Gallery() {
         {/* Results Count */}
         <ScrollReveal delay={0.4} className="text-center mb-10">
           <span className="text-sm text-muted-foreground">
-            Mostrando {filteredItems.length} de {flowerItems.length} arreglos
+            Mostrando {filteredItems.length} de {products.length} arreglos
           </span>
         </ScrollReveal>
 
@@ -165,16 +214,25 @@ export function Gallery() {
                   {/* Availability Badge */}
                   <div className="absolute top-4 right-4">
                     <Badge
-                      variant={item.available ? 'default' : 'secondary'}
-                      className={item.available ? 'bg-green-600 text-white px-3 py-1' : 'bg-gray-500'}
+                      variant={item.available !== false ? 'default' : 'secondary'}
+                      className={item.available !== false ? 'bg-green-600 text-white px-3 py-1' : 'bg-gray-500'}
                     >
-                      {item.available ? (
+                      {item.available !== false ? (
                         <><Check className="w-3.5 h-3.5 mr-1.5" /> Disponible</>
                       ) : (
                         <><X className="w-3.5 h-3.5 mr-1.5" /> Agotado</>
                       )}
                     </Badge>
                   </div>
+
+                  {/* Featured Badge */}
+                  {item.featured && (
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-amber-500 text-white px-3 py-1">
+                        ⭐ Destacado
+                      </Badge>
+                    </div>
+                  )}
                 </div>
 
                 {/* Info */}
@@ -187,7 +245,7 @@ export function Gallery() {
                   </p>
                   <div className="flex items-center justify-between mt-4">
                     <span className="text-[hsl(var(--primary))] font-semibold text-lg">
-                      {item.priceRange}
+                      {formatPrice(item)}
                     </span>
                     <a
                       href={whatsappUrl(item.name)}
@@ -209,6 +267,7 @@ export function Gallery() {
         {/* Empty State */}
         {filteredItems.length === 0 && (
           <div className="text-center py-20">
+            <Package className="w-16 h-16 mx-auto mb-4 text-gray-300" />
             <p className="text-muted-foreground text-lg">
               No encontramos arreglos con los filtros seleccionados.
             </p>
@@ -243,9 +302,16 @@ export function Gallery() {
               {/* Details */}
               <div className="p-8 lg:p-10 flex flex-col">
                 <div className="flex-1">
-                  <Badge className="mb-5 bg-[hsl(var(--primary))] text-sm px-4 py-1">
-                    {categories.find(c => c.id === selectedItem.category)?.name}
-                  </Badge>
+                  <div className="flex gap-2 mb-5">
+                    <Badge className="bg-[hsl(var(--primary))] text-sm px-4 py-1">
+                      {selectedItem.categoryName || categories.find(c => c.id === selectedItem.category || c.id === selectedItem.categoryId)?.name || 'Arreglo Floral'}
+                    </Badge>
+                    {selectedItem.featured && (
+                      <Badge className="bg-amber-500 text-sm px-4 py-1">
+                        ⭐ Destacado
+                      </Badge>
+                    )}
+                  </div>
                   
                   <h3 className="font-serif text-3xl lg:text-4xl text-foreground mb-4">
                     {selectedItem.name}
@@ -255,32 +321,42 @@ export function Gallery() {
                     {selectedItem.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {selectedItem.occasions.map((occ) => {
-                      const occasion = occasions.find(o => o.id === occ);
-                      return occasion ? (
-                        <span
-                          key={occ}
-                          className="inline-flex items-center gap-1.5 text-sm bg-[hsl(var(--cream))] px-4 py-2 rounded-full"
-                        >
-                          {occasion.icon} {occasion.name}
-                        </span>
-                      ) : null;
-                    })}
-                  </div>
+                  {selectedItem.occasions && selectedItem.occasions.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {selectedItem.occasions.map((occ) => {
+                        const occasion = occasions.find(o => o.id === occ);
+                        return occasion ? (
+                          <span
+                            key={occ}
+                            className="inline-flex items-center gap-1.5 text-sm bg-[hsl(var(--cream))] px-4 py-2 rounded-full"
+                          >
+                            {occasion.icon} {occasion.name}
+                          </span>
+                        ) : null;
+                      })}
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-6 mb-8">
                     <div>
-                      <span className="text-sm text-muted-foreground block mb-1">Precio aproximado:</span>
+                      <span className="text-sm text-muted-foreground block mb-1">Precio:</span>
                       <p className="text-3xl font-serif font-bold text-[hsl(var(--primary))]">
-                        {selectedItem.priceRange}
+                        {formatPrice(selectedItem)}
                       </p>
                     </div>
+                    {selectedItem.stock !== undefined && selectedItem.stock > 0 && (
+                      <div>
+                        <span className="text-sm text-muted-foreground block mb-1">Disponibilidad:</span>
+                        <p className="text-lg font-medium text-green-600">
+                          {selectedItem.stock} en stock
+                        </p>
+                      </div>
+                    )}
                     <Badge
-                      variant={selectedItem.available ? 'default' : 'secondary'}
-                      className={selectedItem.available ? 'bg-green-600 text-sm px-4 py-1.5' : 'bg-gray-500'}
+                      variant={selectedItem.available !== false ? 'default' : 'secondary'}
+                      className={selectedItem.available !== false ? 'bg-green-600 text-sm px-4 py-1.5' : 'bg-gray-500'}
                     >
-                      {selectedItem.available ? 'Disponible' : 'Agotado'}
+                      {selectedItem.available !== false ? 'Disponible' : 'Agotado'}
                     </Badge>
                   </div>
                 </div>

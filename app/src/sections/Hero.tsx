@@ -113,7 +113,7 @@ export function Hero() {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto border-white/50 text-white hover:bg-white/20 px-10 py-7 text-lg rounded-full backdrop-blur-sm transition-all duration-300"
+                className="w-full sm:w-auto border-2 border-white bg-white/10 text-white hover:bg-white hover:text-green-800 px-10 py-7 text-lg rounded-full backdrop-blur-sm transition-all duration-300 font-semibold shadow-lg"
               >
                 <Phone className="w-6 h-6 mr-3" />
                 Llamar Ahora

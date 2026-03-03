@@ -97,10 +97,18 @@ export function Categories() {
           <h1 className="text-3xl font-serif font-bold text-gray-900">Categorías</h1>
           <p className="text-gray-600 mt-1">Gestiona las categorías de productos</p>
         </div>
-        <Button onClick={handleNew} className="bg-green-600 hover:bg-green-700">
-          <Plus className="w-4 h-4 mr-2" />
-          Nueva Categoría
-        </Button>
+        <div className="flex gap-2">
+          {categories.length === 0 && (
+            <Button variant="outline" onClick={handleImportDefault} className="border-green-300 text-green-700 hover:bg-green-50">
+              <Download className="w-4 h-4 mr-2" />
+              Cargar categorías por defecto
+            </Button>
+          )}
+          <Button onClick={handleNew} className="bg-green-600 hover:bg-green-700">
+            <Plus className="w-4 h-4 mr-2" />
+            Nueva Categoría
+          </Button>
+        </div>
       </div>
 
       {/* Stats */}

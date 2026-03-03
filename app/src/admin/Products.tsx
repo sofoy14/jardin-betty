@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useProducts, useCategories } from '@/hooks/useLocalStorage';
+import { flowerItems } from '@/data/flowers';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -132,6 +133,29 @@ export function Products() {
     document.body.removeChild(link);
   };
 
+  const handleImportDefault = () => {
+    if (confirm(`Esto importará ${flowerItems.length} productos existentes (las fotos que ya tienes). ¿Continuar?`)) {
+      const defaultProducts = flowerItems.map(item => ({
+        id: item.id,
+        name: item.name,
+        categoryId: item.category,
+        categoryName: categories.find(c => c.id === item.category)?.name || item.category,
+        occasions: item.occasions,
+        priceRange: item.priceRange,
+        price: 0,
+        available: item.available,
+        image: item.image,
+        description: item.description,
+        featured: false,
+        stock: 10,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }));
+      importProducts(defaultProducts);
+      alert(`${defaultProducts.length} productos importados. Ahora puedes editarlos.`);
+    }
+  };
+
   const toggleOccasion = (occasionId: string) => {
     setFormData(prev => ({
       ...prev,
@@ -156,12 +180,17 @@ export function Products() {
           <h1 className="text-3xl font-serif font-bold text-gray-900">Productos</h1>
           <p className="text-gray-600 mt-1">Gestiona tu catálogo de flores y arreglos</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          {products.length === 0 && (
+            <Button variant="outline" size="sm" onClick={handleImportDefault} className="border-green-300 text-green-700 hover:bg-green-50">
+              📁 Cargar productos existentes
+            </Button>
+          )}
           <Button variant="outline" size="sm" onClick={handleImport}>
-            Importar
+            Importar JSON
           </Button>
           <Button variant="outline" size="sm" onClick={handleExport}>
-            Exportar
+            Exportar JSON
           </Button>
           <Button onClick={handleNew} className="bg-green-600 hover:bg-green-700">
             <Plus className="w-4 h-4 mr-2" />
